@@ -57,9 +57,14 @@ class plxMySlippry extends plxPlugin {
 		$s = "";
 		foreach($this->slippry->aSlides as $i => $slide) {
 			if($slide['active']) {
-				$onclick = $slide['onclick']!='' ? $slide['onclick'] : '#slide'.intval($i);
-				$openwin = ($slide['onclick']!='' AND $this->getParam('openwin')) ? 'onclick="window.open(this, \'_blank\');return false" ' : 'onclick="return false" ';
-				$s .= '<li><a '.$openwin.'href="'.plxUtils::strCheck($onclick).'"><img src="'.plxUtils::strCheck($slide['url']).'"  alt="'.plxUtils::strCheck($slide['description']).'" /></a></li>'."\n";
+				if($slide['onclick']!='') {
+					$href = $slide['onclick'];
+					$onclick = $this->getParam('openwin') ? 'window.open(this, \'_blank\');return false' : '';
+				} else {
+					$href = '#slide'.intval($i);
+					$onclick = 'return false;';
+				}
+				$s .= '<li><a onclick="'.$onclick.'" href="'.$href.'"><img src="'.plxUtils::strCheck($slide['url']).'" alt="'.plxUtils::strCheck($slide['description']).'" /></a></li>'."\n";
 			}
 		}
 		if($s!="") {

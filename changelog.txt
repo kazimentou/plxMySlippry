@@ -1,2 +1,5 @@
+## Version 1.01 (08/12/2016) ##
+BUG Mauvais gestion du paramètre "Ouvrir les liens des images du diaporama dans une nouvelle fenêtre"
+
 ## Version 1.0 (06/12/2016) ##
 version initiale
