@@ -5,13 +5,13 @@ class slippry {
 	public $config = null; # fichier des données
 	public $aSlides = array(); # tableau des slides
 
-	public function __construct() {
+	public function __construct($default_lang) {
 
-		$lang = (isset($_COOKIE["plxMyMultiLingue"]) and !empty($_COOKIE["plxMyMultiLingue"])) ? '.'.$_COOKIE["plxMyMultiLingue"] : '';
+		$lang = ".".((isset($_COOKIE["plxMyMultiLingue"]) and !empty($_COOKIE["plxMyMultiLingue"])) ? $_COOKIE["plxMyMultiLingue"] : $default_lang);
 		if(defined('PLX_CONF')) # version PluXml < 5.1.7
 			$this->config = dirname(PLX_CONF).'/slippry.config'.$lang.'.xml';
 		else # version PluXml >= 5.1.7
-			$this->config = PLX_ROOT.PLX_CONFIG_PATH.'/plugins/slippry.config'.$lang.'.xml';
+			$this->config = PLX_ROOT.PLX_CONFIG_PATH.'plugins/slippry.config'.$lang.'.xml';
 	}
 
 	/**

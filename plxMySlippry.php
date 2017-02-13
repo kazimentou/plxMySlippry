@@ -22,7 +22,7 @@ class plxMySlippry extends plxPlugin {
 		$this->addHook('AdminMediasTop', 'AdminMediasTop');
 		$this->addHook('AdminMediasPrepend', 'AdminMediasPrepend');
 
-		$this->slippry = new slippry();
+		$this->slippry = new slippry($default_lang);
 		$this->slippry->getSlides();
 
 		# déclaration des hooks
