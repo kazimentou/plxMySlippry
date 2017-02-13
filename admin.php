@@ -12,7 +12,7 @@ if(!empty($_POST)) {
 }
 ?>
 
-<form action="plugin.php?p=plxMySlippry" method="post" id="form_plxMySlippry">
+<form class="inline-form" action="plugin.php?p=plxMySlippry" method="post" id="form_plxMySlippry">
 <table class="table">
 	<thead>
 		<tr>
@@ -61,7 +61,7 @@ if(!empty($_POST)) {
 <p class="in-action-bar" class="center">
 	<?php echo plxToken::getTokenPostMethod() ?>
 	<?php plxUtils::printSelect('selection', array( '' => L_FOR_SELECTION, 'delete' => $plxPlugin->getLang('L_DELETE')), '') ?>
-	<input class="button submit" type="submit" name="submit" value="<?php echo L_OK ?>" />&nbsp;&nbsp;&nbsp;
-	<input class="button update " type="submit" name="update" value="<?php $plxPlugin->lang('L_UPDATE') ?>" />
+	<input type="submit" name="submit" value="<?php echo L_OK ?>" />&nbsp;&nbsp;&nbsp;
+	<input type="submit" name="update" value="<?php $plxPlugin->lang('L_UPDATE') ?>" />
 </p>
 </form>
