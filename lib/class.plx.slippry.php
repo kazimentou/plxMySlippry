@@ -6,8 +6,10 @@ class slippry {
 	public $aSlides = array(); # tableau des slides
 
 	public function __construct($default_lang) {
-		$lang = plxMyMultiLingue::_Lang();
-		if(!empty($lang) AND defined('PLX_ADMIN')) $default_lang = $lang;
+		if(defined('PLX_MYMULTILINGUE')) {
+			$lang = plxMyMultiLingue::_Lang();
+			if(!empty($lang) AND defined('PLX_ADMIN')) $default_lang = $lang;
+		}
 		$this->config = PLX_ROOT.PLX_CONFIG_PATH.'plugins/slippry.config.'.$default_lang.'.xml';
 	}
 
