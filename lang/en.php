@@ -21,6 +21,9 @@ $LANG = array(
 'L_SPEED'					=> 'The time the transition takes to complete in ms (ex:800)',
 'L_MAXWIDTH'				=> 'Diaporam max width (in px)',
 'L_OPEN_IN_NEW_WINDOW'		=> 'Open clicked image in a new window',
+'L_SHOW_PAGER' 				=> 'Show pager',
+'L_SHOW_CONTROLS' 			=> 'Show controls',
+'L_ADAPTIVEHEIGHT' 			=> 'The slider height should change on the fly according to the current slide',
 'L_SAVE'					=> 'Enregistrer',
 
 );
