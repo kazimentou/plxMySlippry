@@ -94,6 +94,9 @@ $(function() {
 	var slippry = $("#slippry").slippry({
 	transition: "'.$this->getParam('transition').'",
 	speed: '.$this->getParam('speed').',
+	pager: '.($this->getParam('pager') == 1 ? 'true' : 'false').',
+	controls: '.($this->getParam('controls') == 1 ? 'true' : 'false').',
+	adaptiveHeight: '.($this->getParam('adaptiveHeight') == 1 ? 'true' : 'false').',
 })});
 </script>
 ';

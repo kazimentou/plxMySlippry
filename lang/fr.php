@@ -23,6 +23,9 @@ $LANG = array(
 'L_SPEED'					=> 'Vitesse de défilement en ms (ex:800)',
 'L_MAXWIDTH'				=> 'Largeur maxi du diaporama (en px)',
 'L_OPEN_IN_NEW_WINDOW'		=> 'Ouvrir les liens des images du diaporama dans une nouvelle fenêtre',
+'L_SHOW_PAGER' 				=> 'Afficher la pagination',
+'L_SHOW_CONTROLS' 			=> 'Afficher les controles',
+'L_ADAPTIVEHEIGHT' 			=> 'Hauteur adaptée à la vignette en cours de visualisation',
 'L_SAVE'					=> 'Enregistrer',
 
 
