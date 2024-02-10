@@ -68,7 +68,7 @@ class plxMySlippry extends plxPlugin {
 			}
 		}
 		if($s!="") {
-			echo '<div class="sy-box" />'."\n";
+			echo '<div class="sy-box">'."\n";
 			echo '<ul id="slippry" class="sy-list">'."\n".$s."</ul>\n";
 			echo "</div>";
 		}
