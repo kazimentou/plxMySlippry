@@ -111,7 +111,7 @@ class slippry {
 				}
 			}
 			# On va trier les clés selon l'ordre choisi
-			if(sizeof($this->aSlides)>0) uasort($this->aSlides, create_function('$a, $b', 'return $a["ordre"]>$b["ordre"];'));
+			if(sizeof($this->aSlides)>0) uasort($this->aSlides, function($a, $b){return $a["ordre"]>$b["ordre"];} );
 		}
 		# sauvegarde
 		if($action) {
