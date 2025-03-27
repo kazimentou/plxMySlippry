@@ -4,7 +4,7 @@
  * @author	Stephane F
  **/
 
-include(dirname(__FILE__).'/lib/class.plx.slippry.php');
+include './lib/class.plx.slippry.php';
 
 class plxMySlippry extends plxPlugin {
 
@@ -102,4 +102,4 @@ $(function() {
 ';
 	}
 }
-?>
+

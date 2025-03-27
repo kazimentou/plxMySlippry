@@ -1,16 +1,16 @@
 <?php if(!defined('PLX_ROOT')) exit; ?>
 <pre style="font-size:12px">
 Activation du plugin
-- aller dans le menu Paramètres > Plugins
+- aller dans le menu Paramètres &gt; Plugins
 - cocher le plugin MySlippry et dans le déroulant "Pour la sélection", sélectionner le menu "Activer"
 
 Configuration du diaporama MySlippry
-- Aller dans le menu Paramètres > Plugins, et cliquer sur le lien Configuration du plugin MySlippry
+- Aller dans le menu Paramètres &gt; Plugins, et cliquer sur le lien Configuration du plugin MySlippry
 
 Pour ajouter des images au diaporama
 - aller dans le gestionnaire des médias
 - cocher les images à ajouter dans le diaporama
-- dans le déroulant "Pour la sélection", sélectionner le menu MySlippry > Ajouter au diaporama
+- dans le déroulant "Pour la sélection", sélectionner le menu MySlippry &gt; Ajouter au diaporama
 
 Activation et personnalisation des images du diaporama
 - allez dans le menu MySlippry (dans le bandeau des menus de l'administration)
@@ -34,8 +34,7 @@ Affichage du diaporama dans une page statique
 <?php
 echo plxUtils::strCheck('
 <?php
-global $plxShow;
-eval($plxShow->callHook("MySlippry"));
+eval($this->callHook("MySlippry"));
 ?>
 ');
 ?>
@@ -44,3 +43,4 @@ eval($plxShow->callHook("MySlippry"));
 <strong>Slippry</strong>: jQuery Image Slider Plugin.
 <a href="http://slippry.com/">http://slippry.com/</a>
 </pre>
+
