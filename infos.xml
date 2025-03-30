@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
 	<title>MySlippry</title>
-	<author><![CDATA[Stephane F.]]></author>
-	<version>1.2.3</version>
-	<date>11/02/2024</date>
-	<site>https://pluxopolis.net</site>
+	<author><![CDATA[Stephane F., J-Pierre Pourrez]]></author>
+	<version>1.3.0</version>
+	<date>30/03/2025</date>
+	<site>https://github.com/kazimentou/plxMySlippry</site>
 	<description><![CDATA[jQuery Responsive Image slider]]></description>
-	<requirements></requirements>
+	<requirements>jQuery</requirements>
 </document>

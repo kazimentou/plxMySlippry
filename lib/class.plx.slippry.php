@@ -1,16 +1,18 @@
 <?php
 
 class slippry {
-
+	const XML_HEADER = '<?xml version="1.0" encoding="' . PLX_CHARSET . '"?>' . PHP_EOL;
 	public $config = null; # fichier des données
 	public $aSlides = array(); # tableau des slides
 
 	public function __construct($default_lang) {
 		if(defined('PLX_MYMULTILINGUE')) {
 			$lang = plxMyMultiLingue::_Lang();
-			if(!empty($lang) AND defined('PLX_ADMIN')) $default_lang = $lang;
+			if(!empty($lang) AND defined('PLX_ADMIN')) {
+				$default_lang = $lang;
+			}
 		}
-		$this->config = PLX_ROOT.PLX_CONFIG_PATH.'plugins/slippry.config.'.$default_lang.'.xml';
+		$this->config = PLX_ROOT.PLX_CONFIG_PATH . 'plugins/slippry.config.' . $default_lang . '.xml';
 	}
 
 	/**
@@ -37,14 +39,16 @@ class slippry {
 			for($i=0;$i<$nb;$i++) {
 				$attributes = $values[$iTags['slide'][$i*$size]]['attributes'];
 				$number = $attributes['number'];
-				# Onclick
-				$this->aSlides[$number]['onclick']=plxUtils::getValue($values[$iTags['onclick'][$i]]['value']);
-				# Recuperation de la description
-				$this->aSlides[$number]['description']=plxUtils::getValue($values[$iTags['description'][$i]]['value']);
-				# Recuperation de lien de l'image
-				$this->aSlides[$number]['url']=plxUtils::getValue($values[$iTags['url'][$i]]['value']);
-				# Récuperation état activation de la catégorie dans le menu
-				$this->aSlides[$number]['active']=isset($attributes['active'])?$attributes['active']:'1';
+				$this->aSlides[$number] = array(
+					# Onclick
+					'onclick' => plxUtils::getValue($values[$iTags['onclick'][$i]]['value']),
+					# Recuperation de la description
+					'description' => plxUtils::getValue($values[$iTags['description'][$i]]['value']),
+					# Recuperation de lien de l'image
+					'url' => plxUtils::getValue($values[$iTags['url'][$i]]['value']),
+					# Récuperation état activation de la catégorie dans le menu
+					'active' => isset($attributes['active']) ? $attributes['active'] : '1',
+				);
 			}
 		}
 	}
@@ -56,12 +60,13 @@ class slippry {
 	 * @author	Stephane F.
 	 **/
 	 public function nextIdSlide() {
-		if(is_array($this->aSlides)) {
-			$idx = key(array_slice($this->aSlides, -1, 1, true));
-			return str_pad($idx+1,3, '0', STR_PAD_LEFT);
-		} else {
+		if(empty($this->aSlides)) {
 			return '001';
 		}
+
+		$ids = array_keys($this->aSlides);
+		rsort($ids);
+		return str_pad(intval($ids[0]) + 1, 3, '0', STR_PAD_LEFT);
 	}
 
 	/**
@@ -74,62 +79,89 @@ class slippry {
 	 **/
 	public function editSlides($content, $action=false) {
 
-		$save = $this->aSlides;
-
 		# suppression
-		if(isset($content['selection']) AND $content['selection']=='delete' AND isset($content['idSlide'])) {
+		if(isset($content['selection']) AND $content['selection']=='delete' AND !empty($content['idSlide'])) {
 			foreach($content['idSlide'] as $slide_id) {
 				# suppression du parametre
 				unset($this->aSlides[$slide_id]);
-				$action = true;
 			}
+			$action = true;
 		}
+
 		# ajout d'un nouveau slide à partir du gestionnaire de médias
 		if(isset($content['selection']) AND !empty($content['selection']) AND isset($content['idFile'])) {
-			$plxAdmin = plxAdmin::getInstance();
-			$root = $plxAdmin->aConf['medias'];
-			if($content['folder']=='.') $content['folder']='';
-			foreach($content['idFile'] as $filename) {
-				$slide_id = $this->nextIdSlide();
-				$this->aSlides[$slide_id]['url'] = $root.$content['folder'].$filename;
-				$this->aSlides[$slide_id]['ordre'] = intval($slide_id);
-				$this->aSlides[$slide_id]['active'] = 0;
-				$this->aSlides[$slide_id]['onclick'] = "";
-				$action = true;
+			if($content['folder']=='.') {
+				$content['folder']='';
 			}
+			$plxAdmin = plxAdmin::getInstance();
+			$folder = $plxAdmin->aConf['medias'] . $content['folder'];
+			foreach($content['idFile'] as $filename) {
+				$url = $folder . $filename;
+				$mimetype = mime_content_type(PLX_ROOT . $url);
+				if(empty($mimetype) or !preg_match('#^image\/#', $mimetype)) {
+					continue;
+				}
+
+				$slide_id = $this->nextIdSlide();
+				$this->aSlides[$slide_id] = array(
+					'url'			=> $url,
+					'description'	=> '',
+					'ordre'			=> intval($slide_id),
+					'active'		=> 1,
+					'onclick'		=> '',
+				);
+			}
+			$action = true;
 		}
+
 		# mise à jour de la liste
 		elseif(!empty($content['update'])) {
 			foreach($content['slideNum'] as $slide_id) {
-				if($content[$slide_id.'_url']!='') {
-					$this->aSlides[$slide_id]['url'] = trim($content[$slide_id.'_url']);
-					$this->aSlides[$slide_id]['description'] = trim($content[$slide_id.'_description']);
-					$this->aSlides[$slide_id]['ordre'] = intval($content[$slide_id.'_ordre']);
-					$this->aSlides[$slide_id]['active'] = intval($content[$slide_id.'_active']);
-					$this->aSlides[$slide_id]['onclick'] = trim($content[$slide_id.'_onclick']);
-					$action = true;
+				if(!empty($content[$slide_id.'_url'])) {
+					$this->aSlides[$slide_id] = array(
+						'url'			=> trim($content[$slide_id.'_url']),
+						'description'	=> trim($content[$slide_id.'_description']),
+						'ordre'			=> intval($content[$slide_id.'_ordre']),
+						'active'		=> intval($content[$slide_id.'_active']),
+						'onclick'		=> trim($content[$slide_id.'_onclick']),
+					);
 				}
+			$action = true;
 			}
 			# On va trier les clés selon l'ordre choisi
-			if(sizeof($this->aSlides)>0) uasort($this->aSlides, function($a, $b){return $a["ordre"]>$b["ordre"];} );
-		}
-		# sauvegarde
-		if($action) {
-			# On génére le fichier XML
-			$xml = "<?xml version=\"1.0\" encoding=\"".PLX_CHARSET."\"?>\n";
-			$xml .= "<document>\n";
-			foreach($this->aSlides as $slide_id => $slide) {
-				$xml .= "\t<slide number=\"".$slide_id."\" active=\"".$slide['active']."\">\n";
-				$xml .= "\t\t<url><![CDATA[".plxUtils::cdataCheck($slide['url'])."]]></url>\n";
-				$xml .= "\t\t<onclick><![CDATA[".plxUtils::cdataCheck($slide['onclick'])."]]></onclick>\n";
-				$xml .= "\t\t<description><![CDATA[".plxUtils::cdataCheck($slide['description'])."]]></description>\n";
-				$xml .= "\t</slide>\n";
+			if(sizeof($this->aSlides)>1) {
+				uasort(
+					$this->aSlides,
+					function($a, $b) {
+						return ($a['ordre'] > $b['ordre']);
+					}
+				);
 			}
-			$xml .= "</document>";
+		}
+
+		# Sauvegarde dans le fichier XML
+		if($action) {
+			ob_start();
+?>
+<document>
+<?php
+			foreach($this->aSlides as $slide_id => $slide) {
+?>
+	<slide number="<?= $slide_id ?>" active="<?= $slide['active'] ?>">
+		<url><![CDATA[<?= plxUtils::cdataCheck($slide['url']) ?>]]></url>
+		<onclick><![CDATA[<?= plxUtils::cdataCheck($slide['onclick']) ?>]]></onclick>
+		<description><![CDATA[<?= plxUtils::cdataCheck($slide['description']) ?>]]></description>
+	</slide>
+<?php
+			}
+?>
+</document>
+<?php
 			# On écrit le fichier
-			if(plxUtils::write($xml,$this->config))
+			if(plxUtils::write(self::XML_HEADER . ob_get_clean(), $this->config))
 				return plxMsg::Info(L_SAVE_SUCCESSFUL);
 			else {
+				# Echec. On remonte la sauvegarde
 				$this->aSlides = $save;
 				return plxMsg::Error(L_SAVE_ERR.' '.$this->config);
 			}

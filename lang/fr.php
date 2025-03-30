@@ -2,6 +2,10 @@
 
 $LANG = array(
 
+# medias.php
+
+'ADD_TO_SLIDESHOW'			=> 'Ajouter au diaporama',
+
 # admin.php
 
 'L_PICTURE'					=> 'Image',
@@ -28,6 +32,4 @@ $LANG = array(
 'L_ADAPTIVEHEIGHT' 			=> 'Hauteur adaptée à la vignette en cours de visualisation',
 'L_SAVE'					=> 'Enregistrer',
 
-
 );
-

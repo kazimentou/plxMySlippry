@@ -2,6 +2,12 @@
 
 $LANG = array(
 
+# medias.php
+
+'ADD_TO_SLIDESHOW'			=> 'Add to slideshow',
+
+# admin.php
+
 'L_PICTURE'					=> 'Picture',
 'L_INFORMATION'				=> 'Information',
 'L_ACTIVE'					=> 'Active',
@@ -27,4 +33,3 @@ $LANG = array(
 'L_SAVE'					=> 'Enregistrer',
 
 );
-

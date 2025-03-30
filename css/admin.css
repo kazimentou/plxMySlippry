@@ -1,0 +1,13 @@
+#plxMySlippry-table td:nth-of-type(4) input {
+	width: 100%;
+	min-width: 32rem;
+}
+
+#plxMySlippry-table textarea {
+	resize: vertical;
+	min-height: 7rem;
+}
+
+#form_plxMySlippry .in-action-bar {
+	z-index: 750;
+}
